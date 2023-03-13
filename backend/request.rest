@@ -1,0 +1,28 @@
+GET http://localhost:5000/daftar-user
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwidXNlcm5hbWUiOiJhYW5yZWZhcndhbiIsIm5hbWEiOiJBYW4gUmVmYXJ3YW4iLCJpYXQiOjE2Nzg2ODk2MzEsImV4cCI6MTY3ODY4OTY0Nn0.0_z3KXXPDsL1GfWebAqFoCIl2R0zsdk2G1AT_VQW7eE
+
+###
+POST http://localhost:5000/daftar
+Content-Type: application/json
+
+{   
+    "username": "aanrefarwanaaa",
+    "nama" : "Aan Refarwan",
+    "password": "Aan_Refarwan",
+    "passwordKonfirmasi": "Aan_Refarwan"
+}
+
+###
+POST http://localhost:5000/masuk
+Content-Type: application/json
+
+{
+    "username": "aanrefarwan",
+    "password": "Aan_Refarwan"
+}
+
+###
+GET http://localhost:5000/token
+
+###
+DELETE http://localhost:5000/keluar
