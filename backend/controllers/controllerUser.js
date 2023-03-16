@@ -13,18 +13,18 @@ export const getUser = async (req, res) => {
 
 export const tambahUser = async (req, res) => {
     const { username, nama, password, passwordKonfirmasi } = req.body;
-    const kesalahanInput = [];
-    if (!username) kesalahanInput.push({ username: "Username belum diisi" });
+    const kesalahanInput = {};
+    if (!username) kesalahanInput.username = "Username belum diisi";
     else {
         const cekUsername = await modelUser.get({ syarat: `username = "${username}"` });
-        if (cekUsername.length) kesalahanInput.push({ username: "Username tidak tersedia" });
+        if (cekUsername.length) kesalahanInput.username = "Username tidak tersedia";
     }
-    if (!password) kesalahanInput.push({ password: "Password belum diisi" });
-    if (!passwordKonfirmasi) kesalahanInput.push({ passwordKonfirmasi: "Password konfirmasi belum diisi" });
-    else if (password !== passwordKonfirmasi) kesalahanInput.push({ passwordKonfirmasi: "Password konfirmasi tidak sama" });
-    if (!nama) kesalahanInput.push({ nama: "Nama belum diisi" });
+    if (!password) kesalahanInput.password = "Password belum diisi";
+    if (!passwordKonfirmasi) kesalahanInput.passwordKonfirmasi = "Password konfirmasi belum diisi";
+    else if (password !== passwordKonfirmasi) kesalahanInput.passwordKonfirmasi = "Password konfirmasi tidak sama";
+    if (!nama) kesalahanInput.nama = "Nama belum diisi";
 
-    if (kesalahanInput.length) res.status(400).json({ kesalahanInput });
+    if (Object.keys(kesalahanInput).length) res.status(400).json({ kesalahanInput });
     else {
         const hashedPassword = bcrypt.hashSync(password, 12);
         const tambahUser = await modelUser.add({ username, nama, password: hashedPassword });
@@ -34,15 +34,15 @@ export const tambahUser = async (req, res) => {
 }
 
 export const masuk = async (req, res) => {
-    const kesalahanInput = [];
-    if (!req.body.password) kesalahanInput.push({ password: "Password belum diisi" });
-    if (!req.body.username) kesalahanInput.push({ username: "Username belum diisi" });
+    const kesalahanInput = {};
+    if (!req.body.password) kesalahanInput.password = "Password belum diisi";
+    if (!req.body.username) kesalahanInput.username = "Username belum diisi";
     else if (req.body.password) {
         const user = await modelUser.get({ kolom: "id, nama, username, password", syarat: `username = "${req.body.username}"` });
-        if (!user.length) kesalahanInput.push({ username: "Username tidak ditemukan" });
+        if (!user.length) kesalahanInput.username = "Username tidak ditemukan";
         else {
             const cekPassword = bcrypt.compareSync(req.body.password, user[0].password);
-            if (!cekPassword) kesalahanInput.push({ password: "Password salah" });
+            if (!cekPassword) kesalahanInput.password = "Password salah";
             else {
                 const id = user[0].id;
                 const nama = user[0].nama;
@@ -66,7 +66,7 @@ export const masuk = async (req, res) => {
         }
     }
 
-    if (kesalahanInput.length) res.status(400).json({ kesalahanInput });
+    if (Object.keys(kesalahanInput).length) res.status(400).json({ kesalahanInput });
 }
 
 export const keluar = async (req, res) => {

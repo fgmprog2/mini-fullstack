@@ -17,8 +17,8 @@ POST http://localhost:5000/masuk
 Content-Type: application/json
 
 {
-    "username": "aanrefarwan",
-    "password": "Aan_Refarwan"
+    "username": "fgmprog2@gmail.com",
+    "password": "AsusElik#2023"
 }
 
 ###
